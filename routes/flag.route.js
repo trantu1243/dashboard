@@ -6,9 +6,7 @@ const { flagController } = require('../controllers');
 
 router.get('/', authMiddleware, flagController.getFlags);
 
-router.get('/add', authMiddleware, function(req, res, next) {
-    res.render('flag/add', {error: null, success: null});
-});
+router.get('/add', authMiddleware, flagController.showAddFlag);
 
 router.post('/add', authMiddleware, flagController.createFlag);
 

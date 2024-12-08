@@ -6,7 +6,8 @@ const teamSchema = mongoose.Schema({
     token: {type: String},
     name: {type: String, required: true},
     score: {type: Number, default: 0},
-    interruptionTime: {type: Number, default: 0}
+    interruptionTime: {type: Number, default: 0},
+    interruption: {type: Number, default: 0},
 });
 
 

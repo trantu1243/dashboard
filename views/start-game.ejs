@@ -1,0 +1,55 @@
+<%- include('./components/header/table-header') %>
+
+<div class="wrapper">
+  
+  <!-- Content Wrapper. Contains page content -->
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <dic class="col-sm-2"></dic>
+          <div class="col-sm-6">
+            <h1>Start</h1>
+          </div>
+         
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-2"></div>
+                <div class="col-8">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                          <h3 class="card-title">Flag</h3>
+                        </div>
+                       
+                        <form action="/start-game" method="POST">
+                            
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Start</button>
+                            </div>
+                        </form>
+                        <!-- /.card-body -->
+                      </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div><!--/. container-fluid -->
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+<!-- ./wrapper -->
+
+<%- include('./components/footer/table-footer') %>

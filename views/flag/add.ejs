@@ -42,6 +42,21 @@
                                     <label for="flag">Flag</label>
                                     <input name="flag" type="text" class="form-control" id="flag" placeholder="Nhập flag" autocomplete="none" required>
                                 </div>
+                                <div class="form-group">
+                                  <label for="round">Round</label>
+                                  <input name="round" type="number" class="form-control" id="flag" placeholder="Nhập round" autocomplete="none" required>
+                              </div>
+                                <div class="form-group">
+                                  <label>Đội</label>
+                                  <select name="teamId" class="form-control" required>
+                                      <option value="">--Lựa chọn đội--</option>
+                                      <% if (teams && Array.isArray(teams)) { %>
+                                        <% for(let i=0; i<teams.length; i++) {%>
+                                          <option value="<%= teams[i]._id %>"><%= teams[i].name %></option>
+                                        <% } %>
+                                      <% } %>
+                                  </select>
+                                </div>
                             </div>
     
                             <div class="card-footer">

@@ -55,13 +55,18 @@ let time = {};
 
 let current_round = 0;
 
-const rounds = [15, 15, 10, 10, 10, 10, 10, 10];
+const rounds = [5, 5, 15, 15, 10, 10, 10, 10, 10, 10];
 
-let numberOfRound = 9;
+let numberOfRound = 10;
 
 // bắt đầu game 
+
+app.get('/start-game', authMiddleware, async (req, res) => {
+  res.render('start-game');
+})
+
 app.post('/start-game', authMiddleware, async (req, res) => {
-  await Team.updateMany({}, { $set: { score: 0 } });
+  await Team.updateMany({}, { $set: { score: 0, interruptionTime: 0, interruption: 0} });
   await Flag.updateMany({}, { $set: { check: false } });
   current_round ++;
   const dateNow = Math.floor(Date.now() / 1000);
@@ -79,10 +84,15 @@ app.post("/bot/report/:id", teamMiddleware, async (req, res)=>{
   const team = await Team.findById(req.team.id);
   if (!req.body.status) {
     team.interruptionTime += 10;
-    await team.save();
+  } else if (team.interruptionTime > 0) {
+    team.interruptionTime = 0;
   }
+  if (team.interruptionTime > team.interruption) {
+    team.interruption = team.interruptionTime;
+  }
+  await team.save()
   console.log(req.body);
-  return res.status(200);
+  return res.status(200).send(true);
 })
 
 
@@ -96,9 +106,18 @@ app.get("/user/bot_event_info", teamMiddleware, async (req, res)=>{
     let defTime = 600;
     if (current_round > rounds.length) defTime = 120;
     else if (rounds[current_round - 1] === 10) defTime = 300;
+    else if (rounds[current_round - 1] === 5) defTime = 120;
 
-    if (defTime >= team.interruptionTime) {
+    if (defTime >= team.interruption) {
       team.score += 40;
+
+      // check số flag bị tấn công
+      const count = await Flag.countDocuments({ check: true, teamId: team, round: current_round });
+      if (count > 1) team.score -= 20;
+      else if (count === 1) team.score -=10;
+
+      team.interruption = 0;
+      team.interruptionTime = 0;
       await team.save()
     }
 

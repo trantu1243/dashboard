@@ -1,15 +1,27 @@
 const Flag = require("../models/flag");
+const Team = require("../models/team");
+
+const showAddFlag = async (req, res) => {
+    const teams = await Team.find();
+    res.render('flag/add', {error: null, success: null, teams});
+}
 
 const createFlag = async (req, res) => {
+    const teams = await Team.find();
+
     try {
         const existingflag = await Flag.findOne({flag: req.body.flag});
         if (existingflag) {
-            return res.render('flag/add', {error: "Đội đã tồn tại", success: null});
+            return res.render('flag/add', {error: "Flage đã tồn tại", success: null, teams});
         }
-        const flag = Flag.create({flag: req.body.flag});
-        res.render('flag/add', {error: null, success: "Thêm thành công"});
+        const team = await Team.findById(req.body.teamId);
+        if (existingflag) {
+            return res.render('flag/add', {error: "Đội ko tồn tại", success: null, teams});
+        }
+        const flag = Flag.create({flag: req.body.flag, teamId: team, round: req.body.round});
+        res.render('flag/add', {error: null, success: "Thêm thành công", teams});
     } catch (error) {
-        res.render('flag/add', {error: error.message, success: null});
+        res.render('flag/add', {error: error.message, success: null, teams});
     }
 }
 
@@ -17,7 +29,14 @@ const createFlag = async (req, res) => {
 const getFlags = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = 10;
-    const flags = await Flag.paginate({}, { page, limit }, function (err, result) {
+    const flags = await Flag.paginate({}, { 
+        page, 
+        limit,
+        populate: {
+            path: 'teamId',
+            select: 'name',
+        },
+    }, function (err, result) {
         return result;
     });
     res.render('flag/index', { flags });
@@ -49,6 +68,7 @@ const deleteFlag = async (req, res) => {
 // }
 
 module.exports = {
+    showAddFlag,
     createFlag,
     getFlags,
     deleteFlag
