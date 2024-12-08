@@ -11,7 +11,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Ngành</h1>
+            <h1>Flag</h1>
           </div>
          
         </div>
@@ -28,22 +28,18 @@
                   <table class="table table-hover text-nowrap">
                       <thead>
                       <tr>
-                          <th>ID</th>
-                          <th>Mã ngành</th>
-                          <th>Tên ngành</th>
-                          <th>Action</th>
+                          <th>Flag</th>
+                          <th>Submit</th>
                       </tr>
                       </thead>
                       <tbody>
-                          <% if (khoas.docs && Array.isArray(khoas.docs)) { %>
-                            <% for(let i=0; i<khoas.docs.length; i++) {%>
+                          <% if (flags.docs && Array.isArray(flags.docs)) { %>
+                            <% for(let i=0; i<flags.docs.length; i++) {%>
                               <tr>
-                                  <td><%= khoas.docs[i]._id %></td>
-                                  <td><%= khoas.docs[i].makhoa %></td>
-                                  <td><%= khoas.docs[i].tenkhoa %></td>
+                                  <td><%= flags.docs[i].flag %></td>
+                                  <td><%= flags.docs[i].check %></td>
                                   <td>
-                                      <a href=<%= `/khoa/edit/${khoas.docs[i]._id}` %> class="btn btn-primary">Edit</a>
-                                      <form action=<%= `/khoa/delete/${khoas.docs[i]._id}` %> method="POST"
+                                      <form action=<%= `/flag/delete/${flags.docs[i]._id}` %> method="POST"
                                             style="display: inline-block;">
                                           <button type="submit" class="btn btn-danger">Delete</button>
                                       </form>
@@ -56,7 +52,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <%- include('../components/partials/pagination', { data: khoas }) %>
+                <%- include('../components/partials/pagination', { data: flags }) %>
               </div>
               <!-- /.card-footer -->
           </div>
@@ -72,9 +68,7 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
     </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->
