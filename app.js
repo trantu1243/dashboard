@@ -89,7 +89,7 @@ app.post("/bot/report/:id", teamMiddleware, async (req, res)=>{
 app.get("/user/bot_event_info", teamMiddleware, async (req, res)=>{
   const dateNow = Math.floor(Date.now() / 1000);
 
-  // quá thời gian tính điểm và chuyển sang round tiếp theo
+  // quá thời gian thì tính điểm và chuyển sang round tiếp theo
   if (dateNow > time.end_time) {
     const team = await Team.findById(req.team.id);
 
@@ -111,8 +111,8 @@ app.get("/user/bot_event_info", teamMiddleware, async (req, res)=>{
       end_time: dateNow + minute * 60,
       current_round: current_round
     }
-    // hết các round thì dừng game
 
+    // hết các round thì dừng game
     if (current_round > numberOfRound) {
       time = {}
       current_round = 0
